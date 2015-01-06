@@ -12,7 +12,7 @@ There are two running processes of haproxy.
 ###haproxy instance 1.
 This one is static: 
 ```
-/usr/sbin/haproxy -c /etc/haproxy/haproxy.cfg
+/usr/sbin/haproxy -D -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid
 ```
 The configuration of this instance is managed by puppet. It has frontends and backends for all services except for the redis servers.
 
@@ -28,7 +28,7 @@ the frontend is running on port 5671. The backends are also running on port 5671
 ###haproxy instance 2
 This one is dynamic:
 ```
-/usr/sbin/haproxy -c /etc/haproxy/haproxy_redis.cfg
+/usr/sbin/haproxy -f /etc/haproxy/haproxy_redis.cfg -p /var/run/haproxy_redis.pid -sf
 ```
 The configuration of this instance is managed by redishappy-haproxy. Redishappy monitors redis master/slave information from the sentinel services, and reconfigures haproxy on the fly if needed. (https://github.com/mdevilliers/redishappy : see the FAQ for the double master issue we are avoiding by using redishappy)
 
