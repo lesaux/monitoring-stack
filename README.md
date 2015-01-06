@@ -1,7 +1,7 @@
 monitoring-stack
 ================
 
-Am all in one highly availlable haproxy/graphite/sensu deployment. The provided example requires 6 boxes.
+An all in one highly availlable haproxy/graphite/sensu deployment. The provided example requires 6 boxes. It should work on either redhat family or ubuntu distros. I have only tested CentOS6, OEL6 and Ubuntu14.
 
 ##A - The haproxy cluster (servers haproxy1 and haproxy2):
 
