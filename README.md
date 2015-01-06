@@ -77,3 +77,42 @@ As mentioned before, sensu needs a redis instance to store its data. The cluster
 
 ###7) Redis for flapjack
 Flapjack also need a redis instance to store the events data.
+
+##D - Endpoints
+
+###haproxy admin interfaces
+http://haproxy1:8080/haproxy?stats
+
+http://haproxy1:8081/haproxy?stats
+
+http://haproxy2:8080/haproxy?stats
+
+http://haproxy2:8081/haproxy?stats
+
+###graphite webapp
+http://graphite1
+
+http://graphite2
+
+http://haproxy_vip
+
+###grafana webapp
+http://graphite1/grafana/
+
+http://graphite2/grafana/
+
+http://haproxy_vip/grafana/
+
+###uchiwa sensu dashboard
+http://sensu1:3000
+
+http://sensu2:3000
+
+###flapjack
+http://sensu1:3080
+
+http://sensu2:3080
+
+
+
+
