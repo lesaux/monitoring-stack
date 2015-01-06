@@ -9,7 +9,7 @@ The haproxy cluster consists of two servers with identical haproxy configuration
 
 There are two running processes of haproxy.
 
-###1) haproxy instance 1.
+###1) haproxy process 1.
 This one is static: 
 ```
 /usr/sbin/haproxy -D -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid
@@ -25,7 +25,7 @@ the frontend is running on port 9200 and load balances in round robin the two el
 ####d) rabbitmq_sensu
 the frontend is running on port 5671. The backends are also running on port 5671 and are rabbitmq servers configured with ssl. The rabbitmq servers are clustered and the messages queues are replicated. The load balancing algorithm used here is also "round-robin"
 
-###2) haproxy instance 2
+###2) haproxy process 2
 This one is dynamic:
 ```
 /usr/sbin/haproxy -f /etc/haproxy/haproxy_redis.cfg -p /var/run/haproxy_redis.pid -sf
