@@ -1,0 +1,43 @@
+mod 'arioch/keepalived'
+mod 'bfraser/grafana'
+mod 'camptocamp/archive'
+mod 'maestrodev/wget'
+mod 'nanliu/staging'
+mod 'pauloconnor/uchiwa'
+mod 'puppetlabs/apache'
+mod 'puppetlabs/apt'
+mod 'puppetlabs/concat'
+mod 'puppetlabs/haproxy'
+mod 'puppetlabs/java'
+mod 'puppetlabs/stdlib'
+mod 'puppetlabs/xinetd'
+mod 'richardc/datacat'
+mod 'sensu/sensu', '1.1.0'
+mod 'stahnma/epel'
+mod 'thias/postfix'
+mod 'thias/sysctl'
+
+mod 'diamond',
+  :git => 'https://github.com/lesaux/puppet-diamond.git'
+mod 'elasticsearch',
+  :git => 'https://github.com/elasticsearch/puppet-elasticsearch.git'
+mod 'flapjack',
+  :git => 'https://github.com/lesaux/puppet-flapjack.git'
+mod 'graphite',
+  :git => 'https://github.com/lesaux/puppet-graphite.git'
+mod 'monit',
+  :git => 'https://github.com/lesaux/puppet-monit.git'
+mod 'navisphere',
+  :git => 'https://github.com/lesaux/puppet-navisphere.git'
+mod 'rabbitmq',
+  :git => 'https://github.com/mvisonneau/puppetlabs-rabbitmq.git'
+mod 'redis', 
+  :git => 'git://github.com/lesaux/puppet-redis.git'
+mod 'redishappy',
+  :git => 'https://github.com/lesaux/puppet-redishappy.git'
+mod 'sensucustom',
+  :git => 'https://github.com/lesaux/puppet-sensucustom.git'
+mod 'sflowtool',
+  :git => 'https://github.com/pythianreese/puppet-sflowtool.git'
+mod 'vmwareperlsdk',
+  :git => 'https://github.com/lesaux/puppet-vmwareperlsdk.git'
