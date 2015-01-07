@@ -46,7 +46,7 @@ Vagrant.configure('2') do |config|
                              netmask: '255.255.255.0',
                              gateway: '192.168.0.1',
                              dns_server_list: ['192.168.0.254', '8.8.8.8'],
-                             dns_suffix_list: ['home.linuxdataflow.org']
+                             dns_suffix_list: ['localdomain']
       # Let's override some provider settings for specific VMs
       node_config.vm.provider :virtualbox do |override|
         # Override number of cpu and memory based on what's in the nodes array
