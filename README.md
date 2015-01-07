@@ -3,6 +3,20 @@ monitoring-stack
 
 An all in one highly availlable haproxy/graphite/sensu deployment. The provided example requires 6 boxes. It should work on either redhat family or ubuntu distros. I have only tested CentOS6, OEL6 and Ubuntu14.
 
+## Installation
+
+checkout the code 
+
+```
+git clone https://github.com/lesaux/monitoring-stack.git
+```
+
+edit the provided Vagrantfile examples and the puppet/site.pp files.
+
+Use ip addresses that fit your own public network.
+
+pay attention to the $main_nic variable in site.pp. It it used to workaround the $::ipaddress fact when using the virtualbox provider. Use whichever eth your vm will use on their public network (usually eth1 with the virtualbox provider - eth0 if using vcenter provider)
+
 ##A - The haproxy cluster (servers haproxy1 and haproxy2):
 
 The haproxy cluster consists of two servers with identical haproxy configurations. The VIP is configured via the keepalived daemon. If one instanced was to fail, the other instance would bring up the VIP. Note that the VIP can only be seen with the "ip" command, and not with "ifconfig".
