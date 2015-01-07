@@ -29,7 +29,7 @@ class graphitecluster::elasticsearch::monit {
     start_program => '/etc/init.d/elasticsearch-es-01 start',
     stop_program  => '/etc/init.d/elasticsearch-es-01 stop',
     port          => 9200,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
 }
@@ -296,7 +296,7 @@ class graphitecluster::graphite::monit {
     start_program => '/etc/init.d/carbon-relay_rep start',
     stop_program  => '/etc/init.d/carbon-relay_rep stop',
     port          => 2213,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
   monit::service::template { 'carbon-relay_fan':
@@ -305,7 +305,7 @@ class graphitecluster::graphite::monit {
     start_program => '/etc/init.d/carbon-relay_fan start',
     stop_program  => '/etc/init.d/carbon-relay_fan stop',
     port          => 2413,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
   monit::service::template { 'carbon-cache_a':

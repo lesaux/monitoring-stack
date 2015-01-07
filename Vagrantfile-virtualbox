@@ -1,0 +1,75 @@
+nodes = [
+           { hostname: "haproxy1.localdomain",
+             box: 'ubuntu/trusty64',
+             ip: "192.168.0.82",
+             mem: 512,
+             cpu: 1 },
+           { hostname: "haproxy2.localdomain",
+             box: 'hfm4/centos6',
+             ip: "192.168.0.83",
+             mem: 512,
+             cpu: 1 },
+           { hostname: "graphite1.localdomain",
+             box: 'ubuntu/trusty64',
+             ip: "192.168.0.85",
+             mem: 2048,
+             cpu: 1 },
+           { hostname: "graphite2.localdomain",
+             box: 'hfm4/centos6',
+             ip: "192.168.0.86",
+             mem: 2048,
+             cpu: 1 },
+           { hostname: "sensu1.localdomain",
+             box: 'ubuntu/trusty64',
+             ip: "192.168.0.80",
+             mem: 1024,
+             cpu: 1 },
+           { hostname: "sensu2.localdomain",
+             box: 'hfm4/centos6',
+             ip: "192.168.0.81",
+             mem: 1024,
+             cpu: 1 }
+]
+
+Vagrant.configure('2') do |config|
+
+  # Go through nodes and configure each of them.
+  nodes.each do |node|
+
+    config.vm.define node[:hostname] do |node_config|
+      node_config.vm.box = node[:box]
+      node_config.vm.hostname = node[:hostname]
+      # Let's configure the network for the VM, only the ip changes and is
+      # coming from the nodes array
+      node_config.vm.network :public_network,
+                             ip: node[:ip],
+                             netmask: '255.255.255.0',
+                             gateway: '192.168.0.1',
+                             dns_server_list: ['192.168.0.254', '8.8.8.8'],
+                             dns_suffix_list: ['home.linuxdataflow.org']
+      # Let's override some provider settings for specific VMs
+      node_config.vm.provider :virtualbox do |override|
+        # Override number of cpu and memory based on what's in the nodes array
+        override.cpus = node[:cpu]
+        override.memory = node[:mem]
+      end
+    end
+  end
+
+## some boxe configurations
+  config.vm.provision "shell",
+    inline: "echo nameserver 192.168.0.254 > /etc/resolv.conf"
+  config.vm.provision "shell",
+    inline: "if [ -n \"$(command -v apt-get)\" ];then wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb;dpkg -i puppetlabs-release-trusty.deb;else rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm;fi"
+  config.vm.provision "shell",
+    inline: "if [ -n \"$(command -v apt-get)\" ]; then apt-get update;else yum repolist;fi"
+  config.vm.provision "shell",
+    inline: "if [ -n \"$(command -v apt-get)\" ]; then apt-get install puppet git ntp -y; else yum install puppet git rubygems -y; service iptables stop; chkconfig iptables off; service ntpd start; chkconfig ntpd on; fi"
+  config.vm.provision "shell",
+    inline: "gem install r10k"
+  config.vm.provision "shell",
+    inline: "cd /vagrant/puppet; r10k puppetfile install -v"
+  config.vm.provision "shell",
+    inline: "cd /vagrant/puppet; puppet apply site.pp --modulepath=./modules"
+   
+end

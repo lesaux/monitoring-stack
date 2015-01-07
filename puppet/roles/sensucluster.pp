@@ -10,12 +10,12 @@ class sensucluster::redis::base {
 
 class sensucluster::redis::sensu {
 
-  if $::ipaddress == $::redis_master {
+  if $::address == $::redis_master {
 
     redis::server {
       'sensu':
         redis_memory    => '1g',
-        redis_ip        => $::ipaddress,
+        redis_ip        => $::address,
         redis_port      => 6379,
         redis_mempolicy => 'allkeys-lru',
         redis_timeout   => 0,
@@ -30,7 +30,7 @@ class sensucluster::redis::sensu {
     redis::server {
       'sensu':
         redis_memory    => '1g',
-        redis_ip        => $::ipaddress,
+        redis_ip        => $::address,
         redis_port      => 6379,
         redis_mempolicy => 'allkeys-lru',
         redis_timeout   => 0,
@@ -53,19 +53,19 @@ class sensucluster::redis::sensu::monit {
     start_program => '/etc/init.d/redis-server_sensu start',
     stop_program  => '/etc/init.d/redis-server_sensu stop',
     port          => 6379,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
 }
 
 class sensucluster::redis::flapjack {
 
-  if $::ipaddress == $::redis_master {
+  if $::address == $::redis_master {
 
     redis::server {
       'flapjack':
         redis_memory    => '1g',
-        redis_ip        => $::ipaddress,
+        redis_ip        => $::address,
         redis_port      => 6380,
         redis_mempolicy => 'allkeys-lru',
         redis_timeout   => 0,
@@ -80,7 +80,7 @@ class sensucluster::redis::flapjack {
     redis::server {
       'flapjack':
         redis_memory    => '1g',
-        redis_ip        => $::ipaddress,
+        redis_ip        => $::address,
         redis_port      => 6380,
         redis_mempolicy => 'allkeys-lru',
         redis_timeout   => 0,
@@ -103,7 +103,7 @@ class sensucluster::redis::flapjack::monit {
     start_program => '/etc/init.d/redis-server_flapjack start',
     stop_program  => '/etc/init.d/redis-server_flapjack stop',
     port          => 6380,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
 }
@@ -139,11 +139,11 @@ class sensucluster::redis::healthcheck {
   include redis::healthcheck
 
   $redis_healthchecks = {
-    'sensu'    => { redisip         => $ipaddress,
+    'sensu'    => { redisip         => $::address,
                     redisport       => 6379,
                     healthcheckport => 6479,
     },
-    'flapjack' => { redisip         => $ipaddress,
+    'flapjack' => { redisip         => $::address,
                     redisport       => 6380,
                     healthcheckport => 6480,
     }
@@ -223,7 +223,7 @@ class sensucluster::rabbitmq::monit {
     start_program => '/etc/init.d/rabbitmq-server start',
     stop_program  => '/etc/init.d/rabbitmq-server stop',
     port          => 5671,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
 }
@@ -297,7 +297,7 @@ class sensucluster::sensu::monit {
     start_program => '/etc/init.d/sensu-api start',
     stop_program  => '/etc/init.d/sensu-api stop',
     port          => 4567,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
   monit::service::template { 'sensu-client':
@@ -340,7 +340,7 @@ class sensucluster::sensu::dashboard::monit {
     start_program => '/etc/init.d/uchiwa start',
     stop_program  => '/etc/init.d/uchiwa stop',
     port          => 3000,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
 }
@@ -403,7 +403,7 @@ class sensucluster::flapjack::base {
       gateways_email_smtp_port                 => 25,
       gateways_email_smtp_domain               => "${::domain}",
       gateways_email_smtp_from                 => "${::hostname}@${::domain}",
-      web_api_url                              => "http://${::ipaddress}:3081/",
+      web_api_url                              => "http://${::address}:3081/",
     }
 
 }
@@ -426,7 +426,7 @@ class sensucluster::flapjack::monit {
     start_program => '/etc/init.d/flapjack start',
     stop_program  => '/etc/init.d/flapjack stop',
     port          => 3080,
-    ip            => $::ipaddress,
+    ip            => $::address,
   }
 
 }

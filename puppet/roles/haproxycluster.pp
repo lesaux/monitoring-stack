@@ -11,31 +11,31 @@ keepalived::vrrp::script { 'check_haproxy':
 
 class haproxycluster::keepalive::config {
 
-  if $::ipaddress == $::haproxy_master {
+  if $::address == $::haproxy_master {
 
   keepalived::vrrp::instance { 'VI_50':
-    interface         => eth0,
+    interface         => $::main_nic,
     state             => MASTER,
     virtual_router_id => 50,
     priority          => 101,
     auth_type         => PASS,
     auth_pass         => 'secret',
-    virtual_ipaddress => [ $haproxy_vip ],
-    track_interface   => [ eth0 ], # optional, monitor these interfaces.
+    virtual_ipaddress => [ $::haproxy_vip ],
+    track_interface   => [ $::main_nic ], # optional, monitor these interfaces.
     track_script      => 'check_haproxy',
   }
 
 } else {
 
   keepalived::vrrp::instance { 'VI_50':
-    interface         => eth0,
+    interface         => $::main_nic,
     state             => 'BACKUP',
     virtual_router_id => '50',
     priority          => '100',
     auth_type         => 'PASS',
     auth_pass         => 'secret',
-    virtual_ipaddress => [ $haproxy_vip ],
-    track_interface   => [ eth0 ], # optional, monitor these interfaces.
+    virtual_ipaddress => [ $::haproxy_vip ],
+    track_interface   => [ $::main_nic ], # optional, monitor these interfaces.
     track_script      => 'check_haproxy',
   }
 
@@ -66,7 +66,7 @@ case $::osfamily {
 
   class { 'haproxy':
     global_options   => {
-      'log'     => "${ipaddress} local0",
+      'log'     => "$::address local0",
       'chroot'  => '/var/lib/haproxy',
       'pidfile' => '/var/run/haproxy.pid',
       'maxconn' => '4000',
@@ -97,7 +97,7 @@ class haproxycluster::haproxy::admin {
   
   haproxy::listen { 'admin':
     collect_exported => true,
-    ipaddress        => $ipaddress,
+    ipaddress        => $::address,
     mode             => 'http',
     ports            => '8080',
     options          => {
