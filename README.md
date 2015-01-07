@@ -2,7 +2,7 @@ monitoring-stack
 ================
 
 An all in one highly availlable haproxy/graphite/sensu deployment. The provided example requires 6 boxes. It should work on either redhat family or ubuntu distros. I have only tested CentOS6, OEL6 and Ubuntu14.
-An equivalent single box deployment is availlable at https://github.com/lesaux/monitoring-stack-standalone
+Keep in mind that you need a fairly powerful desktop to deploy this stack. An equivalent single box deployment is availlable at https://github.com/lesaux/monitoring-stack-standalone
 
 ## Installation
 
