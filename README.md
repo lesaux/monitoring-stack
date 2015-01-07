@@ -58,7 +58,7 @@ The haproxy webui for the redis services is availlable at http://haproxy1:8081/h
 
 
 
-##B - The graphite cluster (servers graphite1 and graphite2:
+##B - The graphite cluster (servers graphite1 and graphite2):
 
 The cluster needs one instance to be up and running at any time. It is possible to poweroff or stop services on one server at a time for maintenance purposes. After a maintenance, resyncing the graphite data (whisper databases) will be necessary, although not urgent. Graphite web is able to pull missing data from a "good" server, so that no "holes" are displayed in your graphs. Resyncing graphite data will be described later. Failover is nearly immediate.
 As mentioned before, the point of entry of metrics shipped by diamond is a carbon replication relay, running on both graphite servers. The data is forwarded to a local "fanout" carbon relay, and to a remote "fanout" relay on the other graphite server. When data reaches one graphite instance, it is replicated to the other one as well. The "fanout" carbon relay is used to leverage several carbon-cache instances. A carbon-cache process is bound to a single cpu, and depending on the amount of metrics that we have, we may need a second carbon-cache instance to spread the load accross two cpus. The "consistent-hashing" algorithm is used on the carbon fanout relays to insure the unicity of metrics being shipped to the carbon-caches. In our case we are using only two carbon-cache instances, but we can scale out to more if needed. In total we have four carbon-cache instances running, two per server.
