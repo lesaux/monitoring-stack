@@ -347,13 +347,22 @@ class sensucluster::sensu::dashboard::monit {
 
 class sensucluster::sensu::subscriptions {
 
-  class { 'sensucustom::subscriptions::linux-graphite':
-    graphite_host => $::graphiteweb_vip
+  #class { 'sensucustom::subscriptions::linux-graphite':
+  #  graphite_host => $::graphiteweb_vip
+  #}
+  #class { 'sensucustom::subscriptions::linux-local':}
+  #class { 'sensucustom::subscriptions::windows-graphite':
+  #  graphite_host => $::graphiteweb_vip
+  #}
+
+  $linux_subscriptions = {
+    'default' => { graphite_host   => $::graphiteweb_vip,
+                   graphite_prefix => 'servers',
+                   subscription    => 'linux_graphite',
+                 }
   }
-  class { 'sensucustom::subscriptions::linux-local':}
-  class { 'sensucustom::subscriptions::windows-graphite':
-    graphite_host => $::graphiteweb_vip
-  }
+
+  create_resources( sensucustom::subscriptions::linux-graphite, $linux_subscriptions)
 
 }
 
